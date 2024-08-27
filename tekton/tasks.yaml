@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: git-clone
+spec:
+  workspaces:
+    - name: output
+  params:
+    - name: url
+      type: string
+      description: The git URL to clone from.
+    - name: revision
+      type: string
+      description: The git revision to checkout.
+      default: main
+  steps:
+    - name: clone
+      image: alpine/git
+      script: |
+        git clone $(params.url) $(workspaces.output.path)
+        cd $(workspaces.output.path)
+        git checkout $(params.revision)
+
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-clickhouse
+spec:
+  workspaces:
+    - name: source
+  steps:
+    - name: build
+      image: clickhouse/binary-builder
+      script: |
+        cd $(workspaces.source.path)
+        ./build.sh
+
