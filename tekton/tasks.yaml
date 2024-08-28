@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: git-clone
+  name: git-clone-clickhouse
 spec:
   workspaces:
     - name: output
@@ -14,7 +14,7 @@ spec:
       description: The git revision to checkout.
       default: main
   steps:
-    - name: clone
+    - name: git-clone
       image: alpine/git
       script: |
         git clone $(params.url) $(workspaces.output.path)
