@@ -17,12 +17,4 @@ spec:
           value: https://github.com/harishisnow/ClickHouse-repo.git 
         - name: revision
           value: main
-    - name: build-clickhouse
-      runAfter:
-        - clone-repo
-      taskRef:
-        name: build-clickhouse
-      workspaces:
-        - name: source
-          workspace: shared-workspace
 
