@@ -21,19 +21,3 @@ spec:
         cd $(workspaces.output.path)
         git checkout $(params.revision)
 
----
-
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: build-clickhouse
-spec:
-  workspaces:
-    - name: source
-  steps:
-    - name: build
-      image: clickhouse/binary-builder
-      script: |
-        cd $(workspaces.source.path)
-        ./build.sh
-
