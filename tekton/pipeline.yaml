@@ -25,3 +25,14 @@ spec:
         - name: output
           workspace: shared-workspace
 
+    - name: build-code
+      taskRef:
+        name: build-task
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: build-command
+          value: "make"  # Adjust this to your build tool (e.g., mvn package)
+      runAfter:  # Ensure build task runs after clone task
+        - clone-repo

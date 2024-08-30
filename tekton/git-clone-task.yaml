@@ -20,3 +20,23 @@ spec:
       script: |
         git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
 
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-task
+spec:
+  params:
+    - name: build-command
+      type: string
+      description: The build command to run (e.g., make, mvn, gradle)
+      default: "make"  # Adjust this to your build tool
+  workspaces:
+    - name: source
+      description: The workspace containing the cloned source code
+  steps:
+    - name: build
+      image: "alpine:latest"  # Adjust this to an appropriate image for your build tool
+      script: |
+        cd $(workspaces.source.path)
+        echo "Hello World"
