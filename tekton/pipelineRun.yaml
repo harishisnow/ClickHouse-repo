@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: clone-clickhouse-pipeline-run
+spec:
+  pipelineRef:
+    name: clone-clickhouse-pipeline
+  params:
+    - name: repository-url
+      value: https://github.com/harishisnow/ClickHouse-repo.git 
+    - name: revision
+      value: master
+  workspaces:
+    - name: shared-workspace
+      emptyDir: {}  # Using emptyDir for simplicity; use PVC in production
+

@@ -1,10 +1,11 @@
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
-  name: clickhouse-trigger-binding
+  name: clickhouse-build-binding
 spec:
   params:
     - name: git-revision
-      value: "$(body.head_commit.id)"
+      value: $(body.head_commit.id)  # Uses the commit SHA from the payload
     - name: git-repo-url
-      value: "$(body.repository.url)"
+      value: $(body.repository.url)  # Uses the repository URL from the payload
+
