@@ -63,6 +63,11 @@ spec:
 
         echo "curl complete"
 
+        export PATH="$HOME/.cargo/bin:$PATH"
+        source $HOME/.cargo/env
+
+        echo "path set for rustup"
+
         rustup toolchain install nightly-2024-04-01
         rustup default nightly-2024-04-01
         rustup component add rust-src
