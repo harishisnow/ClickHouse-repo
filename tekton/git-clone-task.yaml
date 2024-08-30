@@ -43,7 +43,8 @@ spec:
       
         apt-get install -y software-properties-common lsb-release wget gnupg
        
-        sed -i 's/^# deb.*universe/deb universe/' /etc/apt/sources.list
+        apt-get install software-properties-common
+
         apt-get update
  
         apt-get install -y ccache git cmake python3 ninja-build nasm yasm gawk
