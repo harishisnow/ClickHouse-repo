@@ -36,7 +36,32 @@ spec:
       description: The workspace containing the cloned source code
   steps:
     - name: build
-      image: "alpine:latest"  # Adjust this to an appropriate image for your build tool
+      image: "ubuntu:22.04"
       script: |
         cd $(workspaces.source.path)
-        echo "Hello World"
+        sudo apt update
+        sudo add-apt-repository universe
+        sudo apt update
+        sudo apt install ccache
+        sudo apt-get install git cmake ccache python3 ninja-build nasm yasm gawk lsb-release wget software-properties-common gnupg 
+        sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+        sudo apt-get install software-properties-common
+        sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+    
+        echo "sudo steps completed"
+ 
+        export CC=clang-18
+        export CXX=clang++-18
+
+        echo "export clang completed"
+
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+        echo "curl complete"
+
+        rustup toolchain install nightly-2024-04-01
+        rustup default nightly-2024-04-01
+        rustup component add rust-src
+ 
+        echo "rust installation complete"
+
