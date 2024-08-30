@@ -39,14 +39,14 @@ spec:
       image: "ubuntu:22.04"
       script: |
         cd $(workspaces.source.path)
-        sudo apt update
-        sudo add-apt-repository universe
-        sudo apt update
-        sudo apt install ccache
-        sudo apt-get install git cmake ccache python3 ninja-build nasm yasm gawk lsb-release wget software-properties-common gnupg 
-        sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-        sudo apt-get install software-properties-common
-        sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+        apt update
+        add-apt-repository universe
+        apt update
+        apt install ccache
+        apt-get install git cmake ccache python3 ninja-build nasm yasm gawk lsb-release wget software-properties-common gnupg 
+        bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+        apt-get install software-properties-common
+        add-apt-repository -y ppa:ubuntu-toolchain-r/test
     
         echo "sudo steps completed"
  
