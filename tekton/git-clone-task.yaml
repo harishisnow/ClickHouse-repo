@@ -47,7 +47,7 @@ spec:
 
         apt-get update
  
-        apt-get install -y ccache git cmake python3 ninja-build nasm yasm gawk
+        apt-get install -y curl ccache git cmake python3 ninja-build nasm yasm gawk
         bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
         apt-get install software-properties-common
         add-apt-repository -y ppa:ubuntu-toolchain-r/test
