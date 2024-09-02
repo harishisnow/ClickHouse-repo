@@ -40,7 +40,7 @@ spec:
     - name: build
       image: "ubuntu:22.04"
       script: |
-        cd $(workspaces.input.path)
+        cd $(workspaces.source.path)
         apt-get update
       
         apt-get install -y software-properties-common lsb-release wget gnupg
@@ -76,8 +76,8 @@ spec:
  
         echo "rust installation complete"
 
-        echo "Listing contents of $(workspaces.input.path):"
-        ls -la $(workspaces.input.path)
+        echo "Listing contents of $(workspaces.source.path):"
+        ls -la $(workspaces.source.path)
 
         mkdir -p build
         cmake -S . -B build
