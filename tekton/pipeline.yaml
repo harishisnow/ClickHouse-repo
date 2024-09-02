@@ -29,7 +29,7 @@ spec:
       taskRef:
         name: build-task
       workspaces:
-        - name: source
+        - name: output
           workspace: shared-workspace
       params:
         - name: build-command
