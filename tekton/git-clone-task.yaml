@@ -12,15 +12,15 @@ spec:
       description: The Git revision (branch, tag, commit SHA) to checkout
       default: "master"
   workspaces:
-    - name: output
+    - name: shared-workspace 
       description: The workspace where the Git repository will be cloned
   steps:
     - name: clone
       image: "alpine/git:v2.30.2"  # Git image to perform clone operation
       script: |
-        git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
+        git clone $(params.repository-url) $(workspaces.shared-workspace.path) --branch $(params.revision)
         echo "Repository cloned"
-        cd $(workspaces.output.path)
+        cd $(workspaces.shared-workspace.path)
         echo "Current directory: $(pwd)"
         ls -la
 
@@ -36,13 +36,13 @@ spec:
       description: The build command to run (e.g., make, mvn, gradle)
       default: "make"  # Adjust this to your build tool
   workspaces:
-    - name: source
+    - name: shared-workspace 
       description: The workspace containing the cloned source code
   steps:
     - name: build
       image: "ubuntu:22.04"
       script: |
-        cd $(workspaces.source.path)
+        cd $(workspaces.shared-workspace.path)
         echo "Current directory: $(pwd)"
         ls -la
         apt-get update
