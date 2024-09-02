@@ -51,11 +51,18 @@ spec:
         echo "Rust installation complete"
 
         echo "Cloning repository $(params.repository-url) on branch $(params.revision)"
-        git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
+        git clone --recursive --shallow-submodules $(params.repository-url) $(workspaces.shared-workspace.path) --branch $(params.revision)
         echo "Repository cloned"
         cd $(workspaces.output.path)
         echo "Current directory: $(pwd)"
         ls -la
+
+        echo "Build process"
+        mkdir build
+        cmake -S . -B build
+        cmake --build build
+        echo "Build complete"
+
       workspaces:
         - name: output
       resources:
