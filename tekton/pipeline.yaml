@@ -22,14 +22,14 @@ spec:
         - name: revision
           value: $(params.revision)
       workspaces:
-        - name: output
+        - name: shared-workspace 
           workspace: shared-workspace
 
     - name: build-code
       taskRef:
         name: build-task
       workspaces:
-        - name: source
+        - name: shared-workspace 
           workspace: shared-workspace
       params:
         - name: build-command
