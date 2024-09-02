@@ -18,6 +18,7 @@ spec:
     - name: clone
       image: "alpine/git:v2.30.2"  # Git image to perform clone operation
       script: |
+        echo "Cloning repository $(params.repository-url) on branch $(params.revision)"
         git clone $(params.repository-url) $(workspaces.shared-workspace.path) --branch $(params.revision)
         echo "Repository cloned"
         cd $(workspaces.shared-workspace.path)
