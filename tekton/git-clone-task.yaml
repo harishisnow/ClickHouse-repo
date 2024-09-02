@@ -18,7 +18,7 @@ spec:
     - name: clone
       image: "alpine/git:v2.30.2"  # Git image to perform clone operation
       script: |
-        git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
+        git clone --recursive --shallow-submodules $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
         echo "Repository cloned to $(workspaces.output.path)"
         ls -la $(workspaces.output.path)
 
@@ -40,7 +40,7 @@ spec:
     - name: build
       image: "ubuntu:22.04"
       script: |
-        cd $(workspaces.output.path)
+        cd $(workspaces.input.path)
         apt-get update
       
         apt-get install -y software-properties-common lsb-release wget gnupg
@@ -76,8 +76,8 @@ spec:
  
         echo "rust installation complete"
 
-        echo "Listing contents of $(workspaces.output.path):"
-        ls -la $(workspaces.output.path)
+        echo "Listing contents of $(workspaces.input.path):"
+        ls -la $(workspaces.input.path)
 
         mkdir -p build
         cmake -S . -B build
