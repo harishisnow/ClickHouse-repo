@@ -18,12 +18,37 @@ spec:
     - name: build
       image: "ubuntu:22.04"
       script: |
-        # Install necessary dependencies
-        apt-get update
-        apt-get install -y git curl
+        # Enable debug mode
+        set -x
 
-        # Verify Git installation
-        git --version
+        echo "Installing dependancies"
+        apt-get update
+        apt-get install -y software-properties-common lsb-release wget gnupg
+        apt-get install software-properties-common
+        apt-get update
+        apt-get install -y curl ccache git cmake python3 ninja-build nasm yasm gawk
+        bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+        apt-get install software-properties-common
+        add-apt-repository -y ppa:ubuntu-toolchain-r/test
+        apt-get update
+        echo "Dependancy Installation complete"
+
+        echo "Setting clang details"
+        export CC=clang-18
+        export CXX=clang++-18
+        echo "Export Clang completed"
+
+        echo "Installing curl"
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        echo "curl complete"
+
+        echo "path set up for rustup"
+        export PATH="$HOME/.cargo/bin:$PATH"
+
+        /root/.cargo/bin/rustup toolchain install nightly-2024-04-01
+        /root/.cargo/bin/rustup default nightly-2024-04-01
+        /root/.cargo/bin/rustup component add rust-src
+        echo "Rust installation complete"
 
         echo "Cloning repository $(params.repository-url) on branch $(params.revision)"
         git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
