@@ -19,8 +19,7 @@ spec:
       image: "alpine/git:v2.30.2"  # Git image to perform clone operation
       script: |
         git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
-        echo "Repository cloned to $(workspaces.output.path)"
-        ls -la $(workspaces.output.path)
+        echo "Repository cloned"
 
 ---
 apiVersion: tekton.dev/v1beta1
