@@ -74,8 +74,8 @@ spec:
  
         echo "rust installation complete"
 
-        cd "$(workspaces.output.path)/ClickHouse"
-        mkdir build
+        cd $(workspaces.source.path)/ClickHouse
+        mkdir -p build
         cmake -S . -B build
         cmake --build build
 
