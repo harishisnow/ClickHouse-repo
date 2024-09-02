@@ -12,82 +12,24 @@ spec:
       description: The Git revision (branch, tag, commit SHA) to checkout
       default: "master"
   workspaces:
-    - name: shared-workspace 
+    - name: output 
       description: The workspace where the Git repository will be cloned
   steps:
     - name: clone
       image: "alpine/git:v2.30.2"  # Git image to perform clone operation
       script: |
         echo "Cloning repository $(params.repository-url) on branch $(params.revision)"
-        git clone --recursive --shallow-submodules $(params.repository-url) $(workspaces.shared-workspace.path) --branch $(params.revision)
+        git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
         echo "Repository cloned"
-        cd $(workspaces.shared-workspace.path)
+        cd $(workspaces.output.path)
         echo "Current directory: $(pwd)"
         ls -la
-
----
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: build-task
-spec:
-  params:
-    - name: build-command
-      type: string
-      description: The build command to run (e.g., make, mvn, gradle)
-      default: "make"  # Adjust this to your build tool
-  workspaces:
-    - name: shared-workspace 
-      description: The workspace containing the cloned source code
-  steps:
-    - name: build
-      image: "ubuntu:22.04"
-      script: |
-        echo "Checking workspace path: $(workspaces.shared-workspace.path)"
-        ls -la $(workspaces.shared-workspace.path)
-
-        cd $(workspaces.shared-workspace.path)
-        echo "Current directory: $(pwd)"
-        ls -la
-
-        apt-get update
-      
-        apt-get install -y software-properties-common lsb-release wget gnupg
-       
-        apt-get install software-properties-common
-
-        apt-get update
- 
-        apt-get install -y curl ccache git cmake python3 ninja-build nasm yasm gawk
-        bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-        apt-get install software-properties-common
-        add-apt-repository -y ppa:ubuntu-toolchain-r/test
-        apt-get update
-    
-        echo "sudo steps completed"
- 
-        export CC=clang-18
-        export CXX=clang++-18
-
-        echo "export clang completed"
-
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-        echo "curl complete"
-
-        export PATH="$HOME/.cargo/bin:$PATH"
-
-        echo "path set for rustup"
-
-        /root/.cargo/bin/rustup toolchain install nightly-2024-04-01
-        /root/.cargo/bin/rustup default nightly-2024-04-01
-        /root/.cargo/bin/rustup component add rust-src
- 
-        echo "rust installation complete"
-
-        mkdir -p build
-        cmake -S . -B build
-        cmake --build build
-
-        echo "Clickhouse build complete"
-
+      workspaces:
+        - name: output
+      resources:
+        requests:
+          memory: "1Gi"
+          cpu: "500m"
+        limits:
+          memory: "2Gi"
+          cpu: "1000m"
