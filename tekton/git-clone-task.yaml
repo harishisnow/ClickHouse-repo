@@ -20,6 +20,8 @@ spec:
       script: |
         git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
         echo "Repository cloned"
+        echo "Current directory: $(pwd)"
+        ls -la
 
 ---
 apiVersion: tekton.dev/v1beta1
@@ -40,6 +42,8 @@ spec:
       image: "ubuntu:22.04"
       script: |
         cd $(workspaces.source.path)
+        echo "Current directory: $(pwd)"
+        ls -la
         apt-get update
       
         apt-get install -y software-properties-common lsb-release wget gnupg
