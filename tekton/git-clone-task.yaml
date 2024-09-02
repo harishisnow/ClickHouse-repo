@@ -43,9 +43,13 @@ spec:
     - name: build
       image: "ubuntu:22.04"
       script: |
+        echo "Checking workspace path: $(workspaces.shared-workspace.path)"
+        ls -la $(workspaces.shared-workspace.path)
+
         cd $(workspaces.shared-workspace.path)
         echo "Current directory: $(pwd)"
         ls -la
+
         apt-get update
       
         apt-get install -y software-properties-common lsb-release wget gnupg
