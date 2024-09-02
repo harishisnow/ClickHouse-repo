@@ -79,7 +79,6 @@ spec:
         echo "Listing contents of $(workspaces.output.path):"
         ls -la $(workspaces.output.path)
 
-        cd $(workspaces.source.path)/ClickHouse
         mkdir -p build
         cmake -S . -B build
         cmake --build build
