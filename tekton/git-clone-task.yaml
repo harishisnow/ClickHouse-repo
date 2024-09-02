@@ -74,6 +74,12 @@ spec:
  
         echo "rust installation complete"
 
+        echo "Listing contents of $(workspaces.source.path):"
+        ls -la $(workspaces.source.path)
+
+        echo "Listing contents of $(workspaces.output.path):"
+        ls -la $(workspaces.output.path)
+
         cd $(workspaces.source.path)/ClickHouse
         mkdir -p build
         cmake -S . -B build
