@@ -18,6 +18,13 @@ spec:
     - name: build
       image: "ubuntu:22.04"
       script: |
+        # Install necessary dependencies
+        apt-get update
+        apt-get install -y git curl
+
+        # Verify Git installation
+        git --version
+
         echo "Cloning repository $(params.repository-url) on branch $(params.revision)"
         git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
         echo "Repository cloned"
