@@ -33,13 +33,18 @@ spec:
       description: The build command to run (e.g., make, mvn, gradle)
       default: "make"  # Adjust this to your build tool
   workspaces:
-    - name: output
+    - name: source
       description: The workspace containing the cloned source code
   steps:
     - name: build
       image: "ubuntu:22.04"
       script: |
-        cd $(workspaces.output.path)
+        # Clone the repository
+        git clone --recursive --shallow-submodules $(params.repository-url) $(workspaces.source.path) --branch $(params.revision)
+        echo "Repository cloned to $(workspaces.source.path)"
+        ls -la $(workspaces.source.path)
+
+        cd $(workspaces.source.path)
         apt-get update
       
         apt-get install -y software-properties-common lsb-release wget gnupg
@@ -74,11 +79,6 @@ spec:
         /root/.cargo/bin/rustup component add rust-src
  
         echo "rust installation complete"
-
-        git clone --recursive --shallow-submodules $(params.repository-url) $(workspaces.output.path) --branch $(params.revision) 
-
-        echo "Listing contents of $(workspaces.output.path):"
-        ls -la $(workspaces.output.path)
 
         mkdir -p build
         cmake -S . -B build
