@@ -18,7 +18,7 @@ spec:
     - name: clone
       image: "alpine/git:v2.30.2"  # Git image to perform clone operation
       script: |
-        git clone --recursive --shallow-submodules $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
+        git clone $(params.repository-url) $(workspaces.output.path) --branch $(params.revision)
         echo "Repository cloned to $(workspaces.output.path)"
         ls -la $(workspaces.output.path)
 
@@ -75,6 +75,8 @@ spec:
         /root/.cargo/bin/rustup component add rust-src
  
         echo "rust installation complete"
+
+        git clone --recursive --shallow-submodules $(params.repository-url) $(workspaces.output.path) --branch $(params.revision) 
 
         echo "Listing contents of $(workspaces.output.path):"
         ls -la $(workspaces.output.path)
