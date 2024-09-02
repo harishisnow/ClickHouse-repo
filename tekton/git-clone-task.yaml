@@ -39,11 +39,6 @@ spec:
     - name: build
       image: "ubuntu:22.04"
       script: |
-        # Clone the repository
-        git clone --recursive --shallow-submodules $(params.repository-url) $(workspaces.source.path) --branch $(params.revision)
-        echo "Repository cloned to $(workspaces.source.path)"
-        ls -la $(workspaces.source.path)
-
         cd $(workspaces.source.path)
         apt-get update
       
