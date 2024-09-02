@@ -34,13 +34,13 @@ spec:
       description: The build command to run (e.g., make, mvn, gradle)
       default: "make"  # Adjust this to your build tool
   workspaces:
-    - name: output
+    - name: input
       description: The workspace containing the cloned source code
   steps:
     - name: build
       image: "ubuntu:22.04"
       script: |
-        cd $(workspaces.output.path)
+        cd $(workspaces.input.path)
         apt-get update
       
         apt-get install -y software-properties-common lsb-release wget gnupg
@@ -76,7 +76,7 @@ spec:
  
         echo "rust installation complete"
 
-        echo "Listing contents of $(workspaces.output.path):"
+        echo "Listing contents of $(workspaces.input.path):"
         ls -la $(workspaces.output.path)
 
         mkdir -p build
