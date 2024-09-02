@@ -51,6 +51,7 @@ spec:
         bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
         apt-get install software-properties-common
         add-apt-repository -y ppa:ubuntu-toolchain-r/test
+        apt-get update
     
         echo "sudo steps completed"
  
@@ -73,7 +74,7 @@ spec:
  
         echo "rust installation complete"
 
-        cd $(workspaces.output.path)/ClickHouse
+        cd "$(workspaces.output.path)/ClickHouse"
         mkdir build
         cmake -S . -B build
         cmake --build build
