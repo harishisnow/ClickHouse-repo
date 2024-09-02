@@ -43,7 +43,7 @@ spec:
       image: "ubuntu:22.04"
       script: |
         cd $(workspaces.source.path)
-        cd $(workspaces.output.path)
+        cd /workspace/output
         echo "Current directory: $(pwd)"
         ls -la
         apt-get update
