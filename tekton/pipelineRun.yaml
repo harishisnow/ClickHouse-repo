@@ -13,5 +13,5 @@ spec:
   workspaces:
     - name: shared-workspace
       emptyDir: {}  # Using emptyDir for simplicity; use PVC in production
-  timeout: "1m"  # Set the timeout to 9 hours
+  timeout: "9h"  # Set the timeout to 9 hours
 
