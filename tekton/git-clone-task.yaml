@@ -67,8 +67,8 @@ spec:
         - name: output
       resources:
         requests:
-          memory: "16Gi"
+          memory: "8Gi"
           cpu: "8000m"
         limits:
-          memory: "32Gi"
+          memory: "16Gi"
           cpu: "16000m"
